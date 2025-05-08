@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_restx import Api, Resource, fields
-from recommendation import recommend_movies
+from recommendation import recommend_movies, get_movie_poster
 import logging
 
 app = Flask(__name__)
@@ -30,7 +30,8 @@ recommendation_model = api.model('Recommendation', {
     'title': fields.String(description='Movie title'),
     'overview': fields.String(description='Movie overview'),
     'genres': fields.String(description='Movie genre(s)'),
-    'release_date': fields.String(description='Release date')
+    'release_date': fields.String(description='Release date'),
+    'poster_url': fields.String(description='URL of the movie poster')
 })
 
 recommendation_response = api.model('RecommendationResponse', {
@@ -78,7 +79,8 @@ class MovieRecommendation(Resource):
                     'title': row['title'],
                     'overview': row['overview'],
                     'genres': row['genres'],
-                    'release_date': row['release_date']
+                    'release_date': row['release_date'],
+                    'poster_url': get_movie_poster(row['id'])
                 })
                 
             logger.info(f"Found {len(result)} recommendations")

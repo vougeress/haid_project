@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Recommendations</title>
+    <!-- Добавляем Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -13,42 +17,77 @@
     </div>
     <div class="container">
         <header>
-            <h1>🎬 Movie Recommendations</h1>
+            <h1>Today I want to watch...</h1>
             <p>Describe what kind of movie you would like to watch</p>
         </header>
 
         <main>
-            <div class="search-container">
-                <textarea 
+            <div class="search-wrapper">
+                <input 
+                    type="text"
                     id="movieDescription" 
                     placeholder="For example: I want to watch a movie about a female detective..."
-                    rows="3"
-                ></textarea>
-                <div class="prompt-suggestions">
-                    <button type="button" class="prompt-btn">Romantic comedy</button>
-                    <button type="button" class="prompt-btn">Science fiction adventure</button>
-                    <button type="button" class="prompt-btn">Motivational sports</button>
-                    <button type="button" class="prompt-btn">Family animation</button>
-                    <button type="button" class="prompt-btn">Thriller with a twist</button>
-                    <button type="button" class="prompt-btn">Historical drama</button>
-                    <button type="button" class="prompt-btn">Light comedy</button>
-                    <button type="button" class="prompt-btn">Deep psychological film</button>
-                    <button type="button" class="prompt-btn">Epic action</button>
-                    <button type="button" class="prompt-btn">Nature documentary</button>
-                </div>
-                <div class="controls">
-                    <input 
-                        type="number" 
-                        id="topK" 
-                        value="5" 
-                        min="1" 
-                        max="20"
-                    >
-                    <label for="topK">number of recommendations</label>
-                    <button onclick="getRecommendations()">Find movies</button>
-                </div>
+                >
+                <button onclick="getRecommendations()" class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
-
+            <div class="controls">
+                <input 
+                    type="number" 
+                    id="topK" 
+                    value="6" 
+                    min="1" 
+                    max="20"
+                >
+                <label for="topK">number of recommendations</label>
+            </div>
+            <div class="prompt-suggestions">
+                <button type="button" class="prompt-btn">Feel magical</button>
+                <button type="button" class="prompt-btn">Romantic comedy</button>
+                <button type="button" class="prompt-btn">Feel inspired</button>
+                <button type="button" class="prompt-btn">Science fiction adventure</button>
+                <button type="button" class="prompt-btn">Feel cozy</button>
+                <button type="button" class="prompt-btn">Motivational sports</button>
+                <button type="button" class="prompt-btn">Feel romantic</button>
+                <button type="button" class="prompt-btn">Family animation</button>
+                <button type="button" class="prompt-btn">Feel mysterious</button>
+                <button type="button" class="prompt-btn">Thriller with a twist</button>
+                <button type="button" class="prompt-btn">Feel peaceful</button>
+                <button type="button" class="prompt-btn">Historical drama</button>
+                <button type="button" class="prompt-btn">Feel excited</button>
+                <button type="button" class="prompt-btn">Light comedy</button>
+                <button type="button" class="prompt-btn">Feel nostalgic</button>
+                <button type="button" class="prompt-btn">Deep psychological film</button>
+                <button type="button" class="prompt-btn">Feel adventurous</button>
+                <button type="button" class="prompt-btn">Epic action</button>
+                <button type="button" class="prompt-btn">Feel emotional</button>
+                <button type="button" class="prompt-btn">Nature documentary</button>
+                <button type="button" class="prompt-btn">Feel powerful</button>
+                <button type="button" class="prompt-btn">Crime detective</button>
+                <button type="button" class="prompt-btn">Feel dreamy</button>
+                <button type="button" class="prompt-btn">Fantasy adventure</button>
+                <button type="button" class="prompt-btn">Feel relaxed</button>
+                <button type="button" class="prompt-btn">War drama</button>
+                <button type="button" class="prompt-btn">Feel good movie</button>
+                <button type="button" class="prompt-btn">Pornographic film</button>
+                <button type="button" class="prompt-btn">Musical comedy</button>
+                <button type="button" class="prompt-btn">Feel hopeful</button>
+                <button type="button" class="prompt-btn">Horror mystery</button>
+                <button type="button" class="prompt-btn">Feel curious</button>
+                <button type="button" class="prompt-btn">Biographical drama</button>
+                <button type="button" class="prompt-btn">Feel energetic</button>
+                <button type="button" class="prompt-btn">Superhero action</button>
+                <button type="button" class="prompt-btn">Heartwarming story</button>
+                <button type="button" class="prompt-btn">Coming of age</button>
+                <button type="button" class="prompt-btn">Feel suspenseful</button>
+                <button type="button" class="prompt-btn">Political thriller</button>
+                <button type="button" class="prompt-btn">Romantic drama</button>
+                <button type="button" class="prompt-btn">Adventure comedy</button>
+                <button type="button" class="prompt-btn">Dystopian future</button>
+                <button type="button" class="prompt-btn">Spy thriller</button>
+                <button type="button" class="prompt-btn">Family drama</button>
+            </div>
             <div id="loading" class="loading hidden">
                 <div class="spinner"></div>
                 <p>Searching for suitable movies...</p>
@@ -98,7 +137,60 @@
                     document.getElementById('movieDescription').value = this.textContent;
                 });
             });
+
+            // Добавляем случайные цвета кнопкам
+            const promptButtons = document.querySelectorAll('.prompt-btn');
+            promptButtons.forEach(button => {
+                // 70% шанс быть белой кнопкой, 30% шанс быть цветной
+                if (Math.random() < 1) {  // 30% шанс
+                    const randomColor = Math.floor(Math.random() * 10) + 1;
+                    button.classList.add(`color-${randomColor}`);
+                }
+                // Остальные 70% останутся белыми (без дополнительных классов)
+            });
         });
+
+        function displayResults(recommendations) {
+            const moviesList = document.getElementById('moviesList');
+            moviesList.innerHTML = '';
+
+            recommendations.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.className = 'movie-card';
+                
+                // Форматируем дату выпуска
+                const releaseDate = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
+                
+                // Форматируем жанры
+                let genres = 'N/A';
+                try {
+                    if (movie.genres) {
+                        const genresList = JSON.parse(movie.genres);
+                        genres = genresList.map(g => g.name).join(', ');
+                    }
+                } catch (e) {
+                    console.error('Error parsing genres:', e);
+                }
+                
+                movieCard.innerHTML = `
+                    <img src="${movie.poster_url}" 
+                         alt="${movie.title}" 
+                         class="movie-poster"
+                         onerror="this.src='https://via.placeholder.com/500x750?text=Error+Loading+Poster'">
+                    <div class="movie-info">
+                        <h3 class="movie-title">${movie.title}</h3>
+                        <div class="movie-meta">
+                            <span class="movie-year">${releaseDate}</span>
+                            <span class="movie-genres">${genres}</span>
+                        </div>
+                        <p class="movie-overview">${movie.overview}</p>
+                    </div>
+                `;
+                moviesList.appendChild(movieCard);
+            });
+
+            document.getElementById('results').classList.remove('hidden');
+        }
     </script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

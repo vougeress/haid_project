@@ -44,24 +44,37 @@ function displayResults(recommendations) {
     moviesList.innerHTML = '';
 
     recommendations.forEach(movie => {
-        // Получаем только год из release_date
-        let year = movie.release_date ? movie.release_date.slice(0, 4) : '';
-        // Преобразуем жанры из JSON-строки в строку с названиями
-        let genres = '-';
-        if (movie.genres) {
-            try {
-                const genreArr = JSON.parse(movie.genres);
-                genres = Array.isArray(genreArr) ? genreArr.map(g => g.name).join(', ') : '-';
-            } catch (e) {
-                genres = movie.genres;
-            }
-        }
-        movieCard = document.createElement('div');
+        const movieCard = document.createElement('div');
         movieCard.className = 'movie-card';
+        
+        // Форматируем дату выпуска
+        const releaseDate = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
+        
+        // Форматируем жанры
+        let genres = 'N/A';
+        try {
+            if (movie.genres) {
+                const genresList = JSON.parse(movie.genres);
+                genres = genresList.map(g => g.name).join(', ');
+            }
+        } catch (e) {
+            console.error('Error parsing genres:', e);
+        }
+        
         movieCard.innerHTML = `
-            <h3>${movie.title} ${year ? '(' + year + ')' : ''}</h3>
-            <span class="movie-genres">${genres}</span>
-            <p>${movie.overview}</p>
+            <img src="${movie.poster_url}" 
+                 alt="${movie.title}" 
+                 class="movie-poster"
+                 onload="this.classList.add('loaded')"
+                 onerror="this.src='https://via.placeholder.com/500x750?text=Error+Loading+Poster'; this.classList.add('loaded')">
+            <div class="movie-info">
+                <h3 class="movie-title">${movie.title}</h3>
+                <div class="movie-meta">
+                    <span class="movie-year">${releaseDate}</span>
+                    <span class="movie-genres">${genres}</span>
+                </div>
+                <p class="movie-overview">${movie.overview}</p>
+            </div>
         `;
         moviesList.appendChild(movieCard);
     });
