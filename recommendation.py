@@ -47,7 +47,7 @@ def load_or_create_embeddings():
 # Загрузка или создание эмбеддингов
 df = load_or_create_embeddings()
 
-def recommend_movies(user_input, top_k=10):
+def recommend_movies(user_input, top_k=12):
     print("Обработка ввода пользователя...")
     user_embedding = model.encode(user_input)
     similarities = df['embedding'].apply(lambda x: cosine_similarity([user_embedding], [x])[0][0])

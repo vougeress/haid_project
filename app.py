@@ -40,8 +40,7 @@ recommendation_response = api.model('RecommendationResponse', {
 })
 
 recommendation_request = api.model('RecommendationRequest', {
-    'description': fields.String(required=True, description='Description of the desired movie'),
-    'top_k': fields.Integer(description='Number of recommendations (default 10)', default=10)
+    'description': fields.String(required=True, description='Description of the desired movie')
 })
 
 error_model = api.model('Error', {
@@ -67,11 +66,10 @@ class MovieRecommendation(Resource):
                 }, 400
             
             description = data['description']
-            top_k = data.get('top_k', 10)
             
             logger.info(f"Recommendation request received. Description: {description}")
             
-            recommendations = recommend_movies(description, top_k)
+            recommendations = recommend_movies(description)
             result = []
             for _, row in recommendations.iterrows():
                 result.append({

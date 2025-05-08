@@ -32,16 +32,6 @@
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-            <div class="controls">
-                <input 
-                    type="number" 
-                    id="topK" 
-                    value="6" 
-                    min="1" 
-                    max="20"
-                >
-                <label for="topK">number of recommendations</label>
-            </div>
             <div class="prompt-suggestions">
                 <button type="button" class="prompt-btn">Feel magical</button>
                 <button type="button" class="prompt-btn">Romantic comedy</button>
@@ -96,6 +86,9 @@
             <div id="results" class="results hidden">
                 <h2>Recommended movies</h2>
                 <div id="moviesList" class="movies-list"></div>
+                <button id="showMoreBtn" class="show-more-btn hidden">
+                    Show More
+                </button>
             </div>
 
             <div id="error" class="error hidden">
@@ -120,76 +113,6 @@
                 themeSwitch.classList.add('fa-moon');
                 localStorage.setItem('theme', 'light');
             }
-        }
-
-        // Load saved theme and set up prompt buttons
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            const themeSwitch = document.querySelector('.theme-switch i');
-            if (savedTheme === 'dark') {
-                themeSwitch.classList.remove('fa-moon');
-                themeSwitch.classList.add('fa-sun');
-            }
-
-            document.querySelectorAll('.prompt-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.getElementById('movieDescription').value = this.textContent;
-                });
-            });
-
-            // Добавляем случайные цвета кнопкам
-            const promptButtons = document.querySelectorAll('.prompt-btn');
-            promptButtons.forEach(button => {
-                // 70% шанс быть белой кнопкой, 30% шанс быть цветной
-                if (Math.random() < 1) {  // 30% шанс
-                    const randomColor = Math.floor(Math.random() * 10) + 1;
-                    button.classList.add(`color-${randomColor}`);
-                }
-                // Остальные 70% останутся белыми (без дополнительных классов)
-            });
-        });
-
-        function displayResults(recommendations) {
-            const moviesList = document.getElementById('moviesList');
-            moviesList.innerHTML = '';
-
-            recommendations.forEach(movie => {
-                const movieCard = document.createElement('div');
-                movieCard.className = 'movie-card';
-                
-                // Форматируем дату выпуска
-                const releaseDate = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
-                
-                // Форматируем жанры
-                let genres = 'N/A';
-                try {
-                    if (movie.genres) {
-                        const genresList = JSON.parse(movie.genres);
-                        genres = genresList.map(g => g.name).join(', ');
-                    }
-                } catch (e) {
-                    console.error('Error parsing genres:', e);
-                }
-                
-                movieCard.innerHTML = `
-                    <img src="${movie.poster_url}" 
-                         alt="${movie.title}" 
-                         class="movie-poster"
-                         onerror="this.src='https://via.placeholder.com/500x750?text=Error+Loading+Poster'">
-                    <div class="movie-info">
-                        <h3 class="movie-title">${movie.title}</h3>
-                        <div class="movie-meta">
-                            <span class="movie-year">${releaseDate}</span>
-                            <span class="movie-genres">${genres}</span>
-                        </div>
-                        <p class="movie-overview">${movie.overview}</p>
-                    </div>
-                `;
-                moviesList.appendChild(movieCard);
-            });
-
-            document.getElementById('results').classList.remove('hidden');
         }
     </script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
