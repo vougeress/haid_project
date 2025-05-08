@@ -1,25 +1,41 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Рекомендации фильмов</title>
+    <title>Movie Recommendations</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <div class="theme-switch" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </div>
     <div class="container">
         <header>
-            <h1>🎬 Рекомендации фильмов</h1>
-            <p>Опишите, какой фильм вы хотели бы посмотреть</p>
+            <h1>🎬 Movie Recommendations</h1>
+            <p>Describe what kind of movie you would like to watch</p>
         </header>
 
         <main>
             <div class="search-container">
                 <textarea 
                     id="movieDescription" 
-                    placeholder="Например: Я хочу посмотреть фильм про детектива-девушку..."
+                    placeholder="For example: I want to watch a movie about a female detective..."
                     rows="3"
                 ></textarea>
+                <div class="prompt-suggestions">
+                    <button type="button" class="prompt-btn">Romantic comedy</button>
+                    <button type="button" class="prompt-btn">Science fiction adventure</button>
+                    <button type="button" class="prompt-btn">Motivational sports</button>
+                    <button type="button" class="prompt-btn">Family animation</button>
+                    <button type="button" class="prompt-btn">Thriller with a twist</button>
+                    <button type="button" class="prompt-btn">Historical drama</button>
+                    <button type="button" class="prompt-btn">Light comedy</button>
+                    <button type="button" class="prompt-btn">Deep psychological film</button>
+                    <button type="button" class="prompt-btn">Epic action</button>
+                    <button type="button" class="prompt-btn">Nature documentary</button>
+                </div>
                 <div class="controls">
                     <input 
                         type="number" 
@@ -28,27 +44,62 @@
                         min="1" 
                         max="20"
                     >
-                    <label for="topK">количество рекомендаций</label>
-                    <button onclick="getRecommendations()">Найти фильмы</button>
+                    <label for="topK">number of recommendations</label>
+                    <button onclick="getRecommendations()">Find movies</button>
                 </div>
             </div>
 
             <div id="loading" class="loading hidden">
                 <div class="spinner"></div>
-                <p>Ищем подходящие фильмы...</p>
+                <p>Searching for suitable movies...</p>
             </div>
 
             <div id="results" class="results hidden">
-                <h2>Рекомендованные фильмы</h2>
+                <h2>Recommended movies</h2>
                 <div id="moviesList" class="movies-list"></div>
             </div>
 
             <div id="error" class="error hidden">
-                <p>Произошла ошибка при поиске фильмов. Пожалуйста, попробуйте еще раз.</p>
+                <p>An error occurred while searching for movies. Please try again.</p>
             </div>
         </main>
     </div>
 
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeSwitch = document.querySelector('.theme-switch i');
+            
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                themeSwitch.classList.remove('fa-moon');
+                themeSwitch.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeSwitch.classList.remove('fa-sun');
+                themeSwitch.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme and set up prompt buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const themeSwitch = document.querySelector('.theme-switch i');
+            if (savedTheme === 'dark') {
+                themeSwitch.classList.remove('fa-moon');
+                themeSwitch.classList.add('fa-sun');
+            }
+
+            document.querySelectorAll('.prompt-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.getElementById('movieDescription').value = this.textContent;
+                });
+            });
+        });
+    </script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html> 

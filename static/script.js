@@ -44,10 +44,23 @@ function displayResults(recommendations) {
     moviesList.innerHTML = '';
 
     recommendations.forEach(movie => {
-        const movieCard = document.createElement('div');
+        // Получаем только год из release_date
+        let year = movie.release_date ? movie.release_date.slice(0, 4) : '';
+        // Преобразуем жанры из JSON-строки в строку с названиями
+        let genres = '-';
+        if (movie.genres) {
+            try {
+                const genreArr = JSON.parse(movie.genres);
+                genres = Array.isArray(genreArr) ? genreArr.map(g => g.name).join(', ') : '-';
+            } catch (e) {
+                genres = movie.genres;
+            }
+        }
+        movieCard = document.createElement('div');
         movieCard.className = 'movie-card';
         movieCard.innerHTML = `
-            <h3>${movie.title}</h3>
+            <h3>${movie.title} ${year ? '(' + year + ')' : ''}</h3>
+            <span class="movie-genres">${genres}</span>
             <p>${movie.overview}</p>
         `;
         moviesList.appendChild(movieCard);

@@ -5,44 +5,47 @@ import logging
 
 app = Flask(__name__)
 
-# Настройка логирования
+# Logging setup
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Определение главной страницы ДО создания API
+# Main page definition BEFORE API creation
 @app.route('/')
 def index():
-    """Главная страница"""
+    """Main page"""
     return render_template('index.html')
 
-# Создание API
+# API creation
 api = Api(
     app,
     version='1.0',
     title='Movie Recommendation API',
-    description='API для получения рекомендаций фильмов на основе текстового описания',
-    doc='/docs'  # URL для Swagger UI
+    description='API for getting movie recommendations based on a text description',
+    doc='/docs'  # URL for Swagger UI
 )
 
-# Определение моделей для Swagger
+# Swagger models definition
 recommendation_model = api.model('Recommendation', {
-    'title': fields.String(description='Название фильма'),
-    'overview': fields.String(description='Описание фильма')
+    'id': fields.Integer(description='Movie ID'),
+    'title': fields.String(description='Movie title'),
+    'overview': fields.String(description='Movie overview'),
+    'genres': fields.String(description='Movie genre(s)'),
+    'release_date': fields.String(description='Release date')
 })
 
 recommendation_response = api.model('RecommendationResponse', {
-    'status': fields.String(description='Статус запроса'),
-    'recommendations': fields.List(fields.Nested(recommendation_model), description='Список рекомендаций')
+    'status': fields.String(description='Request status'),
+    'recommendations': fields.List(fields.Nested(recommendation_model), description='List of recommendations')
 })
 
 recommendation_request = api.model('RecommendationRequest', {
-    'description': fields.String(required=True, description='Описание желаемого фильма'),
-    'top_k': fields.Integer(description='Количество рекомендаций (по умолчанию 10)', default=10)
+    'description': fields.String(required=True, description='Description of the desired movie'),
+    'top_k': fields.Integer(description='Number of recommendations (default 10)', default=10)
 })
 
 error_model = api.model('Error', {
-    'status': fields.String(description='Статус ошибки'),
-    'error': fields.String(description='Описание ошибки')
+    'status': fields.String(description='Error status'),
+    'error': fields.String(description='Error description')
 })
 
 @api.route('/recommend')
@@ -52,37 +55,40 @@ class MovieRecommendation(Resource):
     @api.response(400, 'Bad Request', error_model)
     @api.response(500, 'Internal Server Error', error_model)
     def post(self):
-        """Получить рекомендации фильмов на основе текстового описания"""
+        """Get movie recommendations based on a text description"""
         try:
             data = api.payload
             
             if not data or 'description' not in data:
                 return {
                     'status': 'error',
-                    'error': 'Пожалуйста, предоставьте описание фильма в поле "description"'
+                    'error': 'Please provide a movie description in the "description" field'
                 }, 400
             
             description = data['description']
             top_k = data.get('top_k', 10)
             
-            logger.info(f"Получен запрос на рекомендации. Описание: {description}")
+            logger.info(f"Recommendation request received. Description: {description}")
             
             recommendations = recommend_movies(description, top_k)
             result = []
             for _, row in recommendations.iterrows():
                 result.append({
+                    'id': row['id'],
                     'title': row['title'],
-                    'overview': row['overview']
+                    'overview': row['overview'],
+                    'genres': row['genres'],
+                    'release_date': row['release_date']
                 })
                 
-            logger.info(f"Найдено {len(result)} рекомендаций")
+            logger.info(f"Found {len(result)} recommendations")
             return {
                 'status': 'success',
                 'recommendations': result
             }
             
         except Exception as e:
-            logger.error(f"Ошибка при обработке запроса: {str(e)}")
+            logger.error(f"Error processing request: {str(e)}")
             return {
                 'status': 'error',
                 'error': str(e)
@@ -92,12 +98,12 @@ class MovieRecommendation(Resource):
 class HealthCheck(Resource):
     @api.response(200, 'Success')
     def get(self):
-        """Проверка работоспособности сервиса"""
+        """Service health check"""
         return {
             'status': 'healthy',
-            'message': 'Сервис рекомендаций работает'
+            'message': 'Recommendation service is running'
         }
 
 if __name__ == '__main__':
-    logger.info("Запуск сервера рекомендаций...")
+    logger.info("Starting recommendation server...")
     app.run(debug=True, host='0.0.0.0', port=5001) 

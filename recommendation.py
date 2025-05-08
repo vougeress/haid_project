@@ -21,7 +21,8 @@ def load_or_create_embeddings():
         print("Создание новых эмбеддингов...")
         # Загрузка данных
         df = pd.read_csv("tmdb_5000_movies.csv")
-        df = df[['title', 'overview']].dropna()
+        # Сохраняем нужные столбцы
+        df = df[['id', 'title', 'overview', 'genres', 'release_date']].dropna()
         
         # Создание эмбеддингов для всех описаний фильмов
         print("Создание эмбеддингов фильмов...")
@@ -42,7 +43,7 @@ def recommend_movies(user_input, top_k=10):
     user_embedding = model.encode(user_input)
     similarities = df['embedding'].apply(lambda x: cosine_similarity([user_embedding], [x])[0][0])
     df['similarity'] = similarities
-    return df.sort_values('similarity', ascending=False).head(top_k)[['title', 'overview']]
+    return df.sort_values('similarity', ascending=False).head(top_k)[['id', 'title', 'overview', 'genres', 'release_date']]
 
 # Тестовый код
 if __name__ == "__main__":
