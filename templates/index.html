@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рекомендации фильмов</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 Рекомендации фильмов</h1>
+            <p>Опишите, какой фильм вы хотели бы посмотреть</p>
+        </header>
+
+        <main>
+            <div class="search-container">
+                <textarea 
+                    id="movieDescription" 
+                    placeholder="Например: Я хочу посмотреть фильм про детектива-девушку..."
+                    rows="3"
+                ></textarea>
+                <div class="controls">
+                    <input 
+                        type="number" 
+                        id="topK" 
+                        value="5" 
+                        min="1" 
+                        max="20"
+                    >
+                    <label for="topK">количество рекомендаций</label>
+                    <button onclick="getRecommendations()">Найти фильмы</button>
+                </div>
+            </div>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Ищем подходящие фильмы...</p>
+            </div>
+
+            <div id="results" class="results hidden">
+                <h2>Рекомендованные фильмы</h2>
+                <div id="moviesList" class="movies-list"></div>
+            </div>
+
+            <div id="error" class="error hidden">
+                <p>Произошла ошибка при поиске фильмов. Пожалуйста, попробуйте еще раз.</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 
