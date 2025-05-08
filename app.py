@@ -27,10 +27,10 @@ api = Api(
 # Swagger models definition
 recommendation_model = api.model('Recommendation', {
     'id': fields.Integer(description='Movie ID'),
-    'title': fields.String(description='Movie title'),
+    'original_title': fields.String(description='Movie title'),
     'overview': fields.String(description='Movie overview'),
     'genres': fields.String(description='Movie genre(s)'),
-    'release_date': fields.String(description='Release date'),
+    'release_year': fields.String(description='Release date'),
     'poster_url': fields.String(description='URL of the movie poster')
 })
 
@@ -76,11 +76,11 @@ class MovieRecommendation(Resource):
             for _, row in recommendations.iterrows():
                 result.append({
                     'id': row['id'],
-                    'title': row['title'],
+                    'title': row['original_title'],
                     'overview': row['overview'],
                     'genres': row['genres'],
-                    'release_date': row['release_date'],
-                    'poster_url': get_movie_poster(row['id'])
+                    'release_date': row['release_year'],
+                    'poster_url': row['poster_path']
                 })
                 
             logger.info(f"Found {len(result)} recommendations")

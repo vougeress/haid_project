@@ -19,7 +19,7 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 def load_or_create_embeddings():
     # Путь к файлу с сохраненными эмбеддингами
     embeddings_file = "movie_embeddings.npy"
-    data_file = "movie_data.csv"
+    data_file = "movies_metadata.csv"
     
     if os.path.exists(embeddings_file) and os.path.exists(data_file):
         print("Загрузка существующих эмбеддингов...")
@@ -31,7 +31,7 @@ def load_or_create_embeddings():
         # Загрузка данных
         df = pd.read_csv("tmdb_5000_movies.csv")
         # Сохраняем нужные столбцы
-        df = df[['id', 'title', 'overview', 'genres', 'release_date']].dropna()
+        df = df[['id', 'original_title', 'overview', 'genres']].dropna()
         
         # Создание эмбеддингов для всех описаний фильмов
         print("Создание эмбеддингов фильмов...")
@@ -54,16 +54,18 @@ def recommend_movies(user_input, top_k=10):
     df['similarity'] = similarities
     recommendations = df.sort_values('similarity', ascending=False).head(top_k)
     
-    # Добавляем URL постеров для каждого фильма
-    recommendations['poster_url'] = recommendations['id'].apply(get_movie_poster)
+    # Добавляем URL постеров и год выпуска для каждого фильма
+    movie_data = recommendations['id'].apply(get_movie_poster)
+    recommendations['poster_path'] = movie_data.apply(lambda x: x['poster_path'])
+    recommendations['release_year'] = movie_data.apply(lambda x: x['release_year'])
     
-    return recommendations[['id', 'title', 'overview', 'genres', 'release_date', 'poster_url']]
+    return recommendations[['id', 'original_title', 'overview', 'genres', 'release_year', 'poster_path']]
 
 def get_movie_poster(movie_id):
-    """Получение постера фильма из TMDB по ID"""
+    """Получение постера фильма и года выпуска из TMDB по ID"""
     try:
         # Получаем информацию о фильме по ID
-        movie_url = f"https://api.themoviedb.org/3/movie/{movie_id}/images"
+        movie_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
         headers = {
             "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
             "accept": "application/json"
@@ -73,19 +75,33 @@ def get_movie_poster(movie_id):
         response.raise_for_status()
         movie_data = response.json()
         
-        # Получаем путь к постеру из массива posters
-        if movie_data.get("posters") and len(movie_data["posters"]) > 0:
-            poster_path = movie_data["posters"][0]["file_path"]
-            return f"{TMDB_IMAGE_BASE_URL}{poster_path}"
+        # Получаем путь к постеру и год выпуска
+        poster_url = "https://via.placeholder.com/500x750?text=No+Poster+Available"
+        if movie_data.get("poster_path"):
+            poster_url = f"{TMDB_IMAGE_BASE_URL}{movie_data['poster_path']}"
             
-        return "https://via.placeholder.com/500x750?text=No+Poster+Available"
+        # Получаем год из release_date
+        release_year = None
+        if movie_data.get("release_date"):
+            release_year = movie_data["release_date"][:4]  # Берем первые 4 символа (год)
+            
+        return {
+            "poster_path": poster_url,
+            "release_year": release_year
+        }
         
     except requests.exceptions.RequestException as e:
-        print(f"Ошибка сети при получении постера для фильма {movie_id}: {str(e)}")
-        return "https://via.placeholder.com/500x750?text=Network+Error"
+        print(f"Ошибка сети при получении данных для фильма {movie_id}: {str(e)}")
+        return {
+            "poster_path": "https://via.placeholder.com/500x750?text=Network+Error",
+            "release_year": None
+        }
     except Exception as e:
-        print(f"Ошибка при получении постера для фильма {movie_id}: {str(e)}")
-        return "https://via.placeholder.com/500x750?text=Error+Loading+Poster"
+        print(f"Ошибка при получении данных для фильма {movie_id}: {str(e)}")
+        return {
+            "poster_url": "https://via.placeholder.com/500x750?text=Error+Loading+Poster",
+            "release_year": None
+        }
 
 # Тестовый код
 if __name__ == "__main__":
@@ -93,4 +109,4 @@ if __name__ == "__main__":
     recommendations = recommend_movies(user_mood)
     print("\n🎬 Рекомендованные фильмы:")
     for i, row in recommendations.iterrows():
-        print(f"\n🎥 {row['title']}\n{row['overview']}")
+        print(f"\n🎥 {row['original_title']}\n{row['overview']}")
