@@ -56,6 +56,14 @@ header h1 {
     margin-bottom: 1rem;
 }
 
+header p {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-top: 0.5rem;
+    color: var(--primary-color);
+}
+
 .search-wrapper {
     position: relative;
     margin-bottom: 1rem;
@@ -270,17 +278,9 @@ input[type="number"] {
 .prompt-suggestions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.8rem;
-    margin: 0.5rem -2rem;
-    padding: 0 2rem;
-    background: none;
-    border: none;
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    justify-content: center;
 }
 
 .prompt-btn {
@@ -391,4 +391,28 @@ input[type="number"] {
     color: white;
     border-color: var(--secondary-color);
     transform: translateY(-2px);
+}
+
+@font-face {
+    font-family: 'Raydis';
+    src: url('/static/fonts/raydis.woff') format('woff'),
+         url('/static/fonts/raydis.ttf') format('truetype'),
+         url('/static/fonts/raydis.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1, h2, h3, .movie-title {
+    font-family: 'Raydis', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.5px;
+}
+
+h1 {
+    font-size: 3.8rem !important;
+}
+h2 {
+    font-size: 2.7rem !important;
+}
+h3, .movie-title {
+    font-size: 1.9rem !important;
 } 
