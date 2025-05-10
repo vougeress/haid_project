@@ -78,7 +78,8 @@ class MovieRecommendation(Resource):
                     'overview': row['overview'],
                     'genres': row['genres'],
                     'release_date': row['release_year'],
-                    'poster_url': row['poster_path']
+                    'poster_url': row['poster_path'],
+                    'explanation': row['explanation']
                 })
                 
             logger.info(f"Found {len(result)} recommendations")

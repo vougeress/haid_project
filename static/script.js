@@ -1,5 +1,6 @@
 async function getRecommendations() {
     const description = document.getElementById('movieDescription').value;
+
     
     if (!description.trim()) {
         alert('Пожалуйста, введите описание фильма');
@@ -136,9 +137,24 @@ function createMovieCard(movie) {
                 <span class="movie-genres">${genres}</span>
             </div>
             <p class="movie-overview">${movie.overview}</p>
+            <button class="explanation-toggle" onclick="toggleExplanation(this)">Why this movie?</button>
+            <div class="movie-explanation" style="display: none;">
+                <p>${movie.explanation}</p>
+            </div>
         </div>
     `;
     return movieCard;
+}
+
+function toggleExplanation(button) {
+    const explanation = button.nextElementSibling;
+    if (explanation.style.display === "none") {
+        explanation.style.display = "block";
+        button.textContent = "Hide explanation";
+    } else {
+        explanation.style.display = "none";
+        button.textContent = "Why this movie?";
+    }
 }
 
 // Load saved theme and set up prompt buttons
