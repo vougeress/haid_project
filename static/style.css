@@ -151,73 +151,127 @@ input[type="number"] {
 
 .movies-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+    padding: 0 1rem;
 }
 
 .movie-card {
     display: flex;
     flex-direction: column;
     background: var(--card-background);
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px var(--shadow-color);
-    transition: transform 0.2s;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 1px solid var(--border-color);
 }
 
 .movie-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .movie-poster {
     width: 100%;
-    height: 400px;
+    height: 450px;
     object-fit: cover;
-    border-radius: 5px;
-    margin-bottom: 1rem;
+    transition: transform 0.5s ease;
+}
+
+.movie-card:hover .movie-poster {
+    transform: scale(1.05);
 }
 
 .movie-info {
-    flex: 1;
+    padding: 1.5rem;
+    background: linear-gradient(
+        to bottom,
+        var(--card-background) 0%,
+        var(--card-background) 100%
+    );
 }
 
 .movie-title {
-    font-size: 1.2rem;
+    font-size: 1.4rem !important;
     color: var(--primary-color);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    font-weight: 600;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .movie-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.7rem;
-    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .movie-year {
     color: var(--secondary-color);
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 1rem;
+    background: rgba(var(--secondary-color-rgb), 0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
 }
 
 .movie-genres {
     color: var(--text-color);
-    opacity: 0.8;
+    opacity: 0.9;
+    font-size: 0.95rem;
     font-style: italic;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .movie-overview {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-color);
-    line-height: 1.4;
+    line-height: 1.6;
     opacity: 0.9;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+/* Добавляем градиентный оверлей при наведении */
+.movie-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.1) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.movie-card:hover::after {
+    opacity: 1;
 }
 
 /* Анимация загрузки постеров */
 .movie-poster {
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease;
 }
 
 .movie-poster.loaded {
@@ -227,6 +281,11 @@ input[type="number"] {
 /* Стили для темной темы */
 [data-theme="dark"] .movie-card {
     background: var(--card-background);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .movie-card:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .movie-title {
@@ -415,4 +474,13 @@ h2 {
 }
 h3, .movie-title {
     font-size: 1.9rem !important;
+}
+
+.results h2 {
+    margin-top: 5rem;
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2.7rem !important;
+    font-family: 'Raydis', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.5px;
 } 
