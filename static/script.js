@@ -57,6 +57,25 @@ function displayResults(recommendations) {
     document.getElementById('results').classList.remove('hidden');
 }
 
+function addRowHoverHandlers() {
+    const movieCards = document.querySelectorAll('.movie-card');
+    movieCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const thisTop = card.getBoundingClientRect().top;
+            movieCards.forEach(otherCard => {
+                if (Math.abs(otherCard.getBoundingClientRect().top - thisTop) < 2) {
+                    otherCard.classList.add('row-hover');
+                }
+            });
+        });
+        card.addEventListener('mouseleave', function() {
+            movieCards.forEach(otherCard => {
+                otherCard.classList.remove('row-hover');
+            });
+        });
+    });
+}
+
 function showNextMovies() {
     const moviesList = document.getElementById('moviesList');
     const showMoreBtn = document.getElementById('showMoreBtn');
@@ -82,6 +101,8 @@ function showNextMovies() {
     } else {
         showMoreBtn.style.display = 'none';
     }
+    // После добавления новых карточек навешиваем обработчики
+    addRowHoverHandlers();
 }
 
 function createMovieCard(movie) {
@@ -146,4 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.classList.add(`color-${randomColor}`);
         }
     });
+
+    // После загрузки страницы навешиваем обработчики на уже существующие карточки
+    addRowHoverHandlers();
 }); 

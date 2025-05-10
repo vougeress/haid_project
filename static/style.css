@@ -245,6 +245,22 @@ input[type="number"] {
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin-top: 0.5rem;
+    max-height: 4.8em;
+    padding: 0;
+    background: transparent;
+    transition: max-height 2s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.2s, color 0.7s, padding 1.2s, background 1.2s, transform 1.2s;
+    transform: translateY(10px);
+}
+
+.movie-card:hover .movie-overview {
+    display: block;
+    max-height: 1000px;
+    overflow: visible;
+    opacity: 1;
+    color: var(--primary-color);
+    background: rgba(255,255,255,0.08);
+    padding: 0.5rem 0.2rem 1rem 0.2rem;
+    transform: translateY(0);
 }
 
 /* Добавляем градиентный оверлей при наведении */
@@ -483,4 +499,153 @@ h3, .movie-title {
     font-size: 2.7rem !important;
     font-family: 'Raydis', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     letter-spacing: 0.5px;
+}
+
+.accessibility-switch {
+    position: fixed;
+    top: 20px;
+    right: 80px;
+    background: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.accessibility-switch:hover {
+    transform: scale(1.1);
+}
+
+.accessibility-switch i {
+    color: var(--text-color);
+    font-size: 1.2rem;
+}
+
+/* Стили для режима слабовидящих */
+[data-accessibility="enabled"] {
+    --primary-color: #000000;
+    --text-color: #000000;
+    --background-color: #ffffff;
+    --card-background: #ffffff;
+    --border-color: #000000;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-accessibility="enabled"] body {
+    font-size: 18px;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+}
+
+[data-accessibility="enabled"] h1 {
+    font-size: 4.2rem !important;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+[data-accessibility="enabled"] h2 {
+    font-size: 3rem !important;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+[data-accessibility="enabled"] .movie-title {
+    font-size: 1.8rem !important;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+[data-accessibility="enabled"] .movie-overview {
+    font-size: 1.2rem;
+    line-height: 2;
+}
+
+[data-accessibility="enabled"] .movie-genres {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+[data-accessibility="enabled"] .movie-year {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 0.4rem 1rem;
+}
+
+[data-accessibility="enabled"] .prompt-btn {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    border-width: 3px;
+}
+
+[data-accessibility="enabled"] input[type="text"] {
+    font-size: 1.2rem;
+    padding: 1rem;
+    border-width: 3px;
+}
+
+[data-accessibility="enabled"] .search-btn {
+    width: 40px;
+    height: 40px;
+    right: 0.3rem;
+    top: 50%;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    z-index: 2;
+}
+
+[data-accessibility="enabled"] .search-btn i {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+}
+
+[data-accessibility="enabled"] .search-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+/* Очки — розово-фиолетовый */
+.accessibility-switch i {
+    color: #d72660;
+    background: linear-gradient(45deg, #d72660 30%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    font-size: 1.4rem;
+    transition: color 0.3s;
+}
+.accessibility-switch:hover i {
+    filter: brightness(1.2) drop-shadow(0 0 4px #d72660);
+}
+
+/* Улучшенный контраст для темной темы в режиме слабовидящих */
+[data-theme="dark"][data-accessibility="enabled"] {
+    --primary-color: #ffffff;
+    --text-color: #ffffff;
+    --background-color: #000000;
+    --card-background: #000000;
+    --border-color: #ffffff;
+}
+
+.movie-card.row-hover .movie-overview {
+    display: block;
+    max-height: 1000px;
+    overflow: visible;
+    opacity: 1;
+    color: var(--primary-color);
+    background: rgba(255,255,255,0.08);
+    padding: 0.5rem 0.2rem 1rem 0.2rem;
+    transform: translateY(0);
 } 

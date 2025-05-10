@@ -16,6 +16,9 @@
     <div class="theme-switch" onclick="toggleTheme()">
         <i class="fas fa-moon"></i>
     </div>
+    <div class="accessibility-switch" onclick="toggleAccessibility()">
+        <i class="fas fa-glasses"></i>
+    </div>
     <div class="container">
         <header>
             <h1>Today I want to watch...</h1>
@@ -115,6 +118,41 @@
                 localStorage.setItem('theme', 'light');
             }
         }
+
+        function toggleAccessibility() {
+            const html = document.documentElement;
+            const accessibilitySwitch = document.querySelector('.accessibility-switch i');
+            
+            if (html.getAttribute('data-accessibility') === 'enabled') {
+                html.removeAttribute('data-accessibility');
+                localStorage.removeItem('accessibility');
+            } else {
+                html.setAttribute('data-accessibility', 'enabled');
+                localStorage.setItem('accessibility', 'enabled');
+            }
+        }
+
+        // Проверяем сохраненные настройки при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const savedAccessibility = localStorage.getItem('accessibility');
+            
+            if (savedTheme) {
+                const html = document.documentElement;
+                const themeSwitch = document.querySelector('.theme-switch i');
+                html.setAttribute('data-theme', savedTheme);
+                if (savedTheme === 'dark') {
+                    themeSwitch.classList.remove('fa-moon');
+                    themeSwitch.classList.add('fa-sun');
+                }
+            }
+
+            if (savedAccessibility) {
+                const html = document.documentElement;
+                const accessibilitySwitch = document.querySelector('.accessibility-switch i');
+                html.setAttribute('data-accessibility', 'enabled');
+            }
+        });
     </script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
