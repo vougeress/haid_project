@@ -772,4 +772,21 @@ h3, .movie-title {
     border-left: 4px solid #7c3aed;
     color: #e0e0e0;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+    position: fixed;
+    top: -10px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.logo img {
+    width: 120px;
+    height: auto;
+}
+
+/* Стили для режима слабовидящих */
+[data-accessibility="enabled"] .logo img {
+    width: 150px;
 } 
