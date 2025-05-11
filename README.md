@@ -19,6 +19,8 @@ A movie recommendation system that helps you find the perfect film based on your
   - Sentence Transformers (semantic search)
   - GigaChat API (explanation generation)
   - TMDB API (movie information)
+  - Pandas & NumPy (data processing)
+  - scikit-learn (similarity calculations)
 
 - **Frontend:**
   - HTML5/CSS3
@@ -78,37 +80,54 @@ A movie recommendation system that helps you find the perfect film based on your
 
 ```
 movie-recommendations/
-├── app.py              # Main application file
-├── recommendation.py   # Recommendation logic
+├── app.py              # Main application file with Flask routes
+├── recommendation.py   # Core recommendation logic and AI integration
 ├── static/            # Static files
-│   ├── style.css     # Styles
-│   ├── script.js     # JavaScript
+│   ├── style.css     # Styles and themes
+│   ├── script.js     # Frontend functionality
+│   ├── images/       # Images and assets
+│   │   └── logo.png  # Application logo
 │   └── fonts/        # Custom fonts
 │       ├── raydis.woff
 │       ├── raydis.ttf
 │       └── raydis.otf
 ├── templates/         # HTML templates
-│   └── index.html    # Main page
-└── requirements.txt   # Dependencies
+│   └── index.html    # Main page template
+├── requirements.txt   # Python dependencies
+├── .env              # Environment variables (not in repo)
+└── docs/             # Documentation
+    ├── api.md        # API documentation and endpoints
+    ├── architecture.md # System architecture overview
+    ├── development.md # Development guide
+    └── user_guide.md  # User manual and features
 ```
 
 ## 🔧 Functionality
 
 ### Semantic Search
-- Movie search based on semantic query matching
+- Movie search based on semantic query matching using Sentence Transformers
 - Considers context and meaning of descriptions
-- Supports natural language
+- Supports natural language input
+- Uses cosine similarity for matching
 
 ### AI Explanations
-- Personalized recommendation explanations
+- Personalized recommendation explanations using GigaChat API
 - Takes into account your query and movie features
 - Helps understand why a movie matches your preferences
+- Concise and friendly explanations
+
+### Movie Data
+- Integration with TMDB API for movie information
+- Automatic poster retrieval
+- Release year information
+- Genre categorization
 
 ### Interface
 - Modern responsive design
 - Smooth animations and transitions
 - Dark mode support
 - Accessibility mode for visually impaired users
+- Interactive movie cards with hover effects
 
 ## 🤝 Contributing
 
@@ -122,6 +141,17 @@ We welcome your contributions to the project! If you want to help:
 ## 📝 License
 
 MIT
+
+## 📚 Documentation
+
+Detailed documentation is available in the `docs` directory:
+
+- [API Documentation](docs/api.md) - Complete API reference with endpoints and examples
+- [Architecture Overview](docs/architecture.md) - System design and technical architecture
+- [Development Guide](docs/development.md) - Guidelines for developers
+- [User Guide](docs/user_guide.md) - User manual and feature documentation
+
+Each component of the system is thoroughly documented to help developers understand and extend the functionality.
 
 ## 👨‍💻 Authors
 
