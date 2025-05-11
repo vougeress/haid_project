@@ -1,88 +1,134 @@
-# Movie Recommendation System
+# 🎬 Movie Recommendation System
 
-Система рекомендаций фильмов на основе текстового описания, использующая семантический поиск и GigaChat API для генерации объяснений рекомендаций.
+A movie recommendation system that helps you find the perfect film based on your text description. Uses modern artificial intelligence technologies to understand your preferences and suggest the most suitable movies.
 
-## Особенности
+## ✨ Key Features
 
-- 🎯 Семантический поиск фильмов на основе текстового описания
-- 🤖 Генерация персонализированных объяснений рекомендаций с помощью GigaChat API
-- 🎨 Современный адаптивный интерфейс с поддержкой тёмной темы
-- ♿ Режим для слабовидящих
-- 🎬 Интеграция с TMDB API для получения информации о фильмах и постеров
+- 🎯 **Smart Search** - find movies using text descriptions with semantic search
+- 🤖 **AI Explanations** - get personalized explanations of why a movie matches your preferences
+- 🎨 **Modern Interface** - beautiful and user-friendly design with dark mode support
+- ♿ **Accessibility** - special mode for visually impaired users with enlarged fonts and contrast
+- 🎬 **Rich Database** - access to an extensive movie database through TMDB API
+- 📱 **Responsive Design** - proper display on all devices
 
-## Технологии
+## 🛠 Technologies
 
-- Python 3.13
-- Flask
-- Sentence Transformers
-- GigaChat API
-- TMDB API
-- HTML/CSS/JavaScript
+- **Backend:**
+  - Python 3.13
+  - Flask (web framework)
+  - Sentence Transformers (semantic search)
+  - GigaChat API (explanation generation)
+  - TMDB API (movie information)
 
-## Установка
+- **Frontend:**
+  - HTML5/CSS3
+  - JavaScript (ES6+)
+  - Responsive Design
+  - Modern CSS Animations
 
-1. Клонируйте репозиторий:
-```bash
-git clone https://github.com/yourusername/movie-recommendations.git
-cd movie-recommendations
-```
+## 📥 Installation
 
-2. Установите зависимости:
-```bash
-pip install -r requirements.txt
-```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/movie-recommendations.git
+   cd movie-recommendations
+   ```
 
-3. Создайте файл `.env` в корневой директории и добавьте необходимые API ключи:
-```
-TMDB_ACCESS_TOKEN=your_tmdb_token
-GIGA_ACCESS_TOKEN=your_gigachat_token
-```
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Запуск
+3. **Configure API keys:**
+   Create a `.env` file in the root directory and add:
+   ```
+   TMDB_ACCESS_TOKEN=your_tmdb_token
+   GIGA_ACCESS_TOKEN=your_gigachat_token
+   ```
 
-1. Запустите сервер:
-```bash
-python app.py
-```
+## 🚀 Running the Application
 
-2. Откройте браузер и перейдите по адресу:
-```
-http://localhost:5001
-```
+1. **Start the server:**
+   ```bash
+   python app.py
+   ```
 
-## Использование
+2. **Open in browser:**
+   ```
+   http://localhost:5001
+   ```
 
-1. Введите описание желаемого фильма в поисковую строку
-2. Или выберите один из предложенных вариантов
-3. Получите персонализированные рекомендации с объяснениями
-4. Используйте кнопку "Show More" для загрузки дополнительных рекомендаций
+## 💡 How to Use
 
-## Функции
+1. **Searching for Movies:**
+   - Enter a description of the movie you want to watch
+   - Or select one of the suggested options
+   - Press the search button or Enter
 
-- **Семантический поиск**: Поиск фильмов на основе смыслового соответствия запросу
-- **Объяснения рекомендаций**: Персонализированные объяснения, почему фильм подходит запросу
-- **Тёмная тема**: Поддержка тёмной темы для комфортного просмотра
-- **Режим для слабовидящих**: Увеличенный размер шрифта и улучшенный контраст
-- **Адаптивный дизайн**: Корректное отображение на всех устройствах
+2. **Viewing Results:**
+   - Browse through recommended movies
+   - Click "Why this movie?" to get an explanation
+   - Use "Show More" for additional recommendations
 
-## Структура проекта
+3. **Interface Settings:**
+   - Toggle between dark/light theme
+   - Enable accessibility mode if needed
+
+## 📁 Project Structure
 
 ```
 movie-recommendations/
-├── app.py              # Основной файл приложения
-├── recommendation.py   # Логика рекомендаций
-├── static/            # Статические файлы
-│   ├── style.css     # Стили
-│   └── script.js     # JavaScript
-├── templates/         # HTML шаблоны
-│   └── index.html    # Главная страница
-└── requirements.txt   # Зависимости
+├── app.py              # Main application file
+├── recommendation.py   # Recommendation logic
+├── static/            # Static files
+│   ├── style.css     # Styles
+│   ├── script.js     # JavaScript
+│   └── fonts/        # Custom fonts
+│       ├── raydis.woff
+│       ├── raydis.ttf
+│       └── raydis.otf
+├── templates/         # HTML templates
+│   └── index.html    # Main page
+└── requirements.txt   # Dependencies
 ```
 
-## Лицензия
+## 🔧 Functionality
+
+### Semantic Search
+- Movie search based on semantic query matching
+- Considers context and meaning of descriptions
+- Supports natural language
+
+### AI Explanations
+- Personalized recommendation explanations
+- Takes into account your query and movie features
+- Helps understand why a movie matches your preferences
+
+### Interface
+- Modern responsive design
+- Smooth animations and transitions
+- Dark mode support
+- Accessibility mode for visually impaired users
+
+## 🤝 Contributing
+
+We welcome your contributions to the project! If you want to help:
+
+1. Fork the repository
+2. Create a branch for your changes
+3. Make your changes
+4. Create a Pull Request
+
+## 📝 License
 
 MIT
 
-## Автор
+## 👨‍💻 Authors
 
-[Ваше имя] 
+- Strelkov Vladislav
+- Petrova Ekaterina
+- Sofin Mikhail
+
+---
+
+⭐ If you like the project, don't forget to give it a star! 
