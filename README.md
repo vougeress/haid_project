@@ -30,7 +30,7 @@ A movie recommendation system that helps you find the perfect film based on your
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/movie-recommendations.git
+   git clone https://github.com/vougeress/haid_project
    cd movie-recommendations
    ```
 
